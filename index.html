@@ -1,0 +1,298 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>OSRS Boss Loot Simulator</title>
+  <style>
+    :root {
+      --osrs-bg: #1c1813;
+      --osrs-panel: #2b2319;
+      --osrs-border: #4d3f2c;
+      --osrs-text: #ff9800;
+      --osrs-light: #e0d0b0;
+      --osrs-purple: #a335ee;
+    }
+    body {
+      background-color: var(--osrs-bg);
+      color: var(--osrs-light);
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      margin: 0;
+      padding: 20px;
+    }
+    .container {
+      max-width: 960px;
+      margin: 0 auto;
+      background-color: var(--osrs-panel);
+      border: 3px solid var(--osrs-border);
+      border-radius: 8px;
+      padding: 20px;
+      box-shadow: 0 4px 10px rgba(0,0,0,0.8);
+    }
+    h1 {
+      color: var(--osrs-text);
+      text-align: center;
+      margin-top: 0;
+      text-shadow: 2px 2px #000;
+    }
+    .controls {
+      display: flex;
+      gap: 15px;
+      flex-wrap: wrap;
+      justify-content: center;
+      background: rgba(0,0,0,0.2);
+      padding: 15px;
+      border-radius: 6px;
+      border: 1px solid var(--osrs-border);
+      margin-bottom: 20px;
+    }
+    .input-group {
+      display: flex;
+      flex-direction: column;
+      gap: 5px;
+    }
+    label {
+      font-size: 14px;
+      color: var(--osrs-text);
+      font-weight: bold;
+    }
+    select, input, button {
+      background: #110d0a;
+      color: #fff;
+      border: 1px solid var(--osrs-border);
+      padding: 8px 12px;
+      border-radius: 4px;
+      font-size: 16px;
+    }
+    button {
+      background: #4a2e12;
+      color: var(--osrs-text);
+      font-weight: bold;
+      cursor: pointer;
+      align-self: flex-end;
+      transition: background 0.2s;
+    }
+    button:hover {
+      background: #6e441b;
+    }
+    .summary-bar {
+      display: flex;
+      justify-content: space-around;
+      background: #110d0a;
+      padding: 10px;
+      border-radius: 4px;
+      border: 1px solid var(--osrs-border);
+      margin-bottom: 20px;
+      font-weight: bold;
+    }
+    .summary-item {
+      text-align: center;
+    }
+    .summary-val {
+      color: #55ff55;
+      font-size: 18px;
+    }
+    .loot-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(100px, 1fr));
+      gap: 10px;
+    }
+    .item-card {
+      background: #1a1510;
+      border: 1px solid var(--osrs-border);
+      border-radius: 4px;
+      padding: 8px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      position: relative;
+      text-align: center;
+    }
+    .item-card.unique {
+      border: 2px solid var(--osrs-text);
+      background: #2a2010;
+    }
+    .item-card.pet {
+      border: 2px solid var(--osrs-purple);
+      background: #20102a;
+    }
+    .item-qty {
+      position: absolute;
+      top: 4px;
+      left: 6px;
+      color: #ffff00;
+      font-weight: bold;
+      font-size: 12px;
+      text-shadow: 1px 1px #000;
+    }
+    .item-icon {
+      width: 45px;
+      height: 45px;
+      object-fit: contain;
+      margin: 5px 0;
+    }
+    .item-name {
+      font-size: 12px;
+      line-height: 1.2;
+    }
+  </style>
+</head>
+<body>
+
+<div class="container">
+  <h1>OSRS Boss Loot Simulator</h1>
+  
+  <div class="controls">
+    <div class="input-group">
+      <label for="bossSelect">Select Boss</label>
+      <select id="bossSelect">
+        <option value="sire">Abyssal Sire (Secondary Table)</option>
+        <option value="zulrah">Zulrah (2 Rolls/Kill)</option>
+        <option value="vorkath">Vorkath (Guaranteed + Primary)</option>
+      </select>
+    </div>
+    
+    <div class="input-group">
+      <label for="kcInput">Kill Count (KC)</label>
+      <input type="number" id="kcInput" value="100" min="1" max="100000">
+    </div>
+
+    <button onclick="simulateLoot()">Simulate Kills</button>
+  </div>
+
+  <div class="summary-bar">
+    <div class="summary-item">Total Kills: <span id="totalKc" class="summary-val">0</span></div>
+    <div class="summary-item">Total Value: <span id="totalValue" class="summary-val">0 GP</span></div>
+    <div class="summary-item">Uniques: <span id="totalUniques" class="summary-val">0</span></div>
+  </div>
+
+  <div id="lootContainer" class="loot-grid"></div>
+</div>
+
+<script>
+// Boss Database with primary & secondary table mechanics
+const BOSSES = {
+  sire: {
+    name: "Abyssal Sire",
+    guaranteed: [{ id: "ashes", name: "Abyssal ashes", icon: "https://oldschool.runescape.wiki/images/Abyssal_ashes.png", qty: [1, 1], value: 4500 }],
+    primaryTable: [
+      { id: "unsired", name: "Unsired", icon: "https://oldschool.runescape.wiki/images/Unsired.png", rate: 1/100, isSecondary: true },
+      { id: "blood_rune", name: "Blood rune", icon: "https://oldschool.runescape.wiki/images/Blood_rune.png", rate: 1/15, qty: [250, 350], value: 200 },
+      { id: "rune_sword", name: "Rune sword", icon: "https://oldschool.runescape.wiki/images/Rune_sword.png", rate: 1/20, qty: [3, 3], value: 12000 }
+    ],
+    secondaryTables: {
+      unsired: [
+        { id: "bludgeon_claw", name: "Abyssal bludgeon claw", icon: "https://oldschool.runescape.wiki/images/Abyssal_bludgeon_claw.png", rate: 128/512, unique: true, value: 10000000 },
+        { id: "bludgeon_spine", name: "Abyssal bludgeon spine", icon: "https://oldschool.runescape.wiki/images/Abyssal_bludgeon_spine.png", rate: 128/512, unique: true, value: 10000000 },
+        { id: "bludgeon_suction", name: "Abyssal bludgeon suction cup", icon: "https://oldschool.runescape.wiki/images/Abyssal_bludgeon_suction_cup.png", rate: 128/512, unique: true, value: 10000000 },
+        { id: "abyssal_dagger", name: "Abyssal dagger", icon: "https://oldschool.runescape.wiki/images/Abyssal_dagger.png", rate: 32/512, unique: true, value: 2800000 },
+        { id: "abyssal_whip", name: "Abyssal whip", icon: "https://oldschool.runescape.wiki/images/Abyssal_whip.png", rate: 32/512, unique: true, value: 1500000 },
+        { id: "orphan", name: "Abyssal orphan", icon: "https://oldschool.runescape.wiki/images/Abyssal_orphan.png", rate: 5/512, pet: true, value: 0 }
+      ]
+    },
+    rollsPerKill: 1
+  },
+  zulrah: {
+    name: "Zulrah",
+    guaranteed: [{ id: "scales", name: "Zulrah's scales", icon: "https://oldschool.runescape.wiki/images/Zulrah%27s_scales.png", qty: [100, 300], value: 170 }],
+    primaryTable: [
+      { id: "tanz_fang", name: "Tanzanite fang", icon: "https://oldschool.runescape.wiki/images/Tanzanite_fang.png", rate: 1/1024, unique: true, value: 22000000 },
+      { id: "magic_fang", name: "Magic fang", icon: "https://oldschool.runescape.wiki/images/Magic_fang.png", rate: 1/1024, unique: true, value: 5000000 },
+      { id: "serp_visage", name: "Serpentine visage", icon: "https://oldschool.runescape.wiki/images/Serpentine_visage.png", rate: 1/1024, unique: true, value: 3500000 },
+      { id: "snakeling", name: "Pet snakeling", icon: "https://oldschool.runescape.wiki/images/Pet_snakeling.png", rate: 1/4000, pet: true, value: 0 },
+      { id: "dragon_bones", name: "Dragon bones", icon: "https://oldschool.runescape.wiki/images/Dragon_bones.png", rate: 1/15, qty: [30, 30], value: 2500 }
+    ],
+    rollsPerKill: 2
+  }
+};
+
+function rollTable(table) {
+  let roll = Math.random();
+  let cumulative = 0;
+  for (let item of table) {
+    cumulative += item.rate;
+    if (roll < cumulative) return item;
+  }
+  return null;
+}
+
+function simulateLoot() {
+  const bossKey = document.getElementById("bossSelect").value;
+  const kc = parseInt(document.getElementById("kcInput").value) || 1;
+  const boss = BOSSES[bossKey];
+
+  let inventory = {};
+  let totalValue = 0;
+  let totalUniques = 0;
+
+  for (let i = 0; i < kc; i++) {
+    // 1. Roll Guaranteed Drops
+    if (boss.guaranteed) {
+      boss.guaranteed.forEach(item => {
+        let qty = Math.floor(Math.random() * (item.qty[1] - item.qty[0] + 1)) + item.qty[0];
+        addLoot(inventory, item, qty);
+        totalValue += qty * item.value;
+      });
+    }
+
+    // 2. Roll Primary Table
+    for (let r = 0; r < boss.rollsPerKill; r++) {
+      let dropped = rollTable(boss.primaryTable);
+      if (dropped) {
+        // If it triggers a secondary roll (like Unsired)
+        if (dropped.isSecondary && boss.secondaryTables[dropped.id]) {
+          let secDropped = rollTable(boss.secondaryTables[dropped.id]);
+          if (secDropped) {
+            addLoot(inventory, secDropped, 1);
+            totalValue += secDropped.value;
+            if (secDropped.unique) totalUniques++;
+          }
+        } else {
+          let qty = dropped.qty ? Math.floor(Math.random() * (dropped.qty[1] - dropped.qty[0] + 1)) + dropped.qty[0] : 1;
+          addLoot(inventory, dropped, qty);
+          totalValue += qty * (dropped.value || 0);
+          if (dropped.unique) totalUniques++;
+        }
+      }
+    }
+  }
+
+  renderLoot(inventory, kc, totalValue, totalUniques);
+}
+
+function addLoot(inv, item, qty) {
+  if (!inv[item.id]) {
+    inv[item.id] = { ...item, count: 0 };
+  }
+  inv[item.id].count += qty;
+}
+
+function renderLoot(inv, kc, value, uniques) {
+  document.getElementById("totalKc").innerText = kc.toLocaleString();
+  document.getElementById("totalValue").innerText = value.toLocaleString() + " GP";
+  document.getElementById("totalUniques").innerText = uniques;
+
+  const container = document.getElementById("lootContainer");
+  container.innerHTML = "";
+
+  Object.values(inv).forEach(item => {
+    const card = document.createElement("div");
+    card.className = `item-card ${item.unique ? 'unique' : ''} ${item.pet ? 'pet' : ''}`;
+    
+    card.innerHTML = `
+      <span class="item-qty">${formatQty(item.count)}</span>
+      <img class="item-icon" src="${item.icon}" alt="${item.name}" onerror="this.src='https://oldschool.runescape.wiki/images/Coins_detail.png'">
+      <span class="item-name">${item.name}</span>
+    `;
+    container.appendChild(card);
+  });
+}
+
+function formatQty(num) {
+  if (num >= 10000000) return Math.floor(num / 1000000) + 'M';
+  if (num >= 100000) return Math.floor(num / 1000) + 'K';
+  return num;
+}
+</script>
+</body>
+</html>
