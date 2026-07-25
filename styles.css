@@ -8,7 +8,6 @@ body {
   font-family: 'JetBrains+Mono', monospace;
 }
 
-/* Custom Scrollbar */
 ::-webkit-scrollbar {
   width: 6px;
   height: 6px;
@@ -24,16 +23,17 @@ body {
   background: #334155;
 }
 
-/* Custom Item Card Glow Effects */
-.item-card {
-  transition: transform 0.15s ease, border-color 0.15s ease;
-}
-.item-card:hover {
-  transform: translateY(-2px);
-  border-color: rgba(245, 158, 11, 0.4);
+/* Highlight styles for Unique drops in the full log */
+.kill-card-unique {
+  border-color: rgba(245, 158, 11, 0.6) !important;
+  background: linear-gradient(90deg, rgba(245, 158, 11, 0.08) 0%, rgba(15, 23, 42, 0.6) 100%) !important;
 }
 
-/* Active Click Feedback */
+.kill-card-pet {
+  border-color: rgba(168, 85, 247, 0.6) !important;
+  background: linear-gradient(90deg, rgba(168, 85, 247, 0.08) 0%, rgba(15, 23, 42, 0.6) 100%) !important;
+}
+
 .active\:scale-98:active {
   transform: scale(0.98);
 }

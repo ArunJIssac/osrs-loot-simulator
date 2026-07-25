@@ -4,12 +4,9 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>OSRS Loot & Drop Analytics</title>
-  <!-- Tailwind CSS -->
   <script src="https://cdn.tailwindcss.com"></script>
-  <!-- JSZip & FileSaver for downloading zipped project directly -->
   <script src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.10.1/jszip.min.js"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/FileSaver.js/2.0.5/FileSaver.min.js"></script>
-  <!-- Lucide Icons -->
   <script src="https://unpkg.com/lucide@latest"></script>
   <link rel="stylesheet" href="styles.css" />
 </head>
@@ -24,15 +21,15 @@
         </div>
         <div>
           <h1 class="text-lg font-bold tracking-tight text-slate-100 flex items-center gap-2">
-            OSRS Loot Analytics <span class="text-xs font-mono font-normal px-2 py-0.5 rounded-full bg-amber-500/10 text-amber-400 border border-amber-500/20">v3.0</span>
+            OSRS Loot Analytics <span class="text-xs font-mono font-normal px-2 py-0.5 rounded-full bg-amber-500/10 text-amber-400 border border-amber-500/20">v3.5 Live GE</span>
           </h1>
-          <p class="text-xs text-slate-400">Monte Carlo Drop Simulator & Profit Calculator</p>
+          <p class="text-xs text-slate-400">Monte Carlo Drop Simulator & Wiki GE Live Pricing</p>
         </div>
       </div>
 
       <div class="flex items-center gap-3">
-        <button id="apiStatusBtn" class="flex items-center gap-2 text-xs px-3 py-1.5 rounded-lg bg-emerald-500/10 border border-emerald-500/20 text-emerald-400 font-mono">
-          <span class="w-2 h-2 rounded-full bg-emerald-400 animate-pulse"></span> GE Live Prices
+        <button id="apiStatusBtn" class="flex items-center gap-2 text-xs px-3 py-1.5 rounded-lg bg-amber-500/10 border border-amber-500/20 text-amber-400 font-mono">
+          <span id="apiPulse" class="w-2 h-2 rounded-full bg-amber-400 animate-ping"></span> <span id="apiStatusText">Fetching Wiki GE...</span>
         </button>
         <button id="downloadZipBtn" class="flex items-center gap-2 text-xs font-semibold px-3 py-1.5 rounded-lg bg-slate-800 hover:bg-slate-700 text-slate-200 border border-slate-700 transition">
           <i data-lucide="download" class="w-4 h-4 text-amber-400"></i> Export ZIP
@@ -53,7 +50,6 @@
       </div>
       
       <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
-        <!-- Boss Selector -->
         <div>
           <label class="block text-xs font-semibold uppercase tracking-wider text-slate-400 mb-2">Select Boss</label>
           <select id="bossSelect" class="w-full bg-slate-950 border border-slate-800 rounded-xl px-4 py-3 text-slate-100 focus:outline-none focus:border-amber-500 focus:ring-1 focus:ring-amber-500 transition cursor-pointer">
@@ -61,39 +57,36 @@
           </select>
         </div>
 
-        <!-- Target Kill Count -->
         <div>
           <label class="block text-xs font-semibold uppercase tracking-wider text-slate-400 mb-2">Target KC</label>
-          <input type="number" id="kcInput" value="500" min="1" max="500000" class="w-full bg-slate-950 border border-slate-800 rounded-xl px-4 py-3 text-slate-100 focus:outline-none focus:border-amber-500 focus:ring-1 focus:ring-amber-500 transition font-mono" />
+          <input type="number" id="kcInput" value="100" min="1" max="10000" class="w-full bg-slate-950 border border-slate-800 rounded-xl px-4 py-3 text-slate-100 focus:outline-none focus:border-amber-500 focus:ring-1 focus:ring-amber-500 transition font-mono" />
         </div>
 
-        <!-- Kills Per Hour -->
         <div>
           <label class="block text-xs font-semibold uppercase tracking-wider text-slate-400 mb-2">Kills Per Hour (KPH)</label>
-          <input type="number" id="kphInput" value="25" min="1" max="150" class="w-full bg-slate-950 border border-slate-800 rounded-xl px-4 py-3 text-slate-100 focus:outline-none focus:border-amber-500 focus:ring-1 focus:ring-amber-500 transition font-mono" />
+          <input type="number" id="kphInput" value="30" min="1" max="150" class="w-full bg-slate-950 border border-slate-800 rounded-xl px-4 py-3 text-slate-100 focus:outline-none focus:border-amber-500 focus:ring-1 focus:ring-amber-500 transition font-mono" />
         </div>
 
-        <!-- Supply Costs / Kill -->
         <div>
           <label class="block text-xs font-semibold uppercase tracking-wider text-slate-400 mb-2">Supply Cost / Kill (GP)</label>
-          <input type="number" id="supplyInput" value="15000" min="0" step="1000" class="w-full bg-slate-950 border border-slate-800 rounded-xl px-4 py-3 text-slate-100 focus:outline-none focus:border-amber-500 focus:ring-1 focus:ring-amber-500 transition font-mono" />
+          <input type="number" id="supplyInput" value="16000" min="0" step="1000" class="w-full bg-slate-950 border border-slate-800 rounded-xl px-4 py-3 text-slate-100 focus:outline-none focus:border-amber-500 focus:ring-1 focus:ring-amber-500 transition font-mono" />
         </div>
       </div>
 
       <div class="mt-6 flex justify-end">
         <button id="simBtn" class="w-full sm:w-auto bg-gradient-to-r from-amber-500 to-amber-600 hover:from-amber-400 hover:to-amber-500 text-slate-950 font-bold py-3.5 px-8 rounded-xl transition-all duration-200 flex items-center justify-center gap-3 shadow-lg shadow-amber-500/10 active:scale-98">
-          <i data-lucide="play" class="w-5 h-5 fill-current"></i> Simulate Kills
+          <i data-lucide="play" class="w-5 h-5 fill-current"></i> Run Simulation
         </button>
       </div>
     </section>
 
-    <!-- Key Analytics Grid -->
+    <!-- Key Metrics Grid -->
     <section class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
       <div class="bg-slate-900/60 border border-slate-800/80 rounded-2xl p-5 relative overflow-hidden group hover:border-slate-700 transition">
         <div class="absolute -right-2 -bottom-2 opacity-5 text-emerald-400 group-hover:opacity-10 transition">
           <i data-lucide="coins" class="w-24 h-24"></i>
         </div>
-        <span class="text-xs font-medium text-slate-400">Net Profit (Minus Supplies)</span>
+        <span class="text-xs font-medium text-slate-400">Net Profit</span>
         <div id="metricNetProfit" class="text-2xl font-bold text-emerald-400 mt-1 font-mono">0 GP</div>
         <div id="metricGrossGP" class="text-xs text-slate-500 mt-1">Gross: 0 GP</div>
       </div>
@@ -102,7 +95,7 @@
         <div class="absolute -right-2 -bottom-2 opacity-5 text-amber-400 group-hover:opacity-10 transition">
           <i data-lucide="clock" class="w-24 h-24"></i>
         </div>
-        <span class="text-xs font-medium text-slate-400">Effective Profit / Hour</span>
+        <span class="text-xs font-medium text-slate-400">Profit / Hour</span>
         <div id="metricHourlyGP" class="text-2xl font-bold text-amber-400 mt-1 font-mono">0 GP/hr</div>
         <div id="metricHoursTotal" class="text-xs text-slate-500 mt-1">Total Time: 0 hrs</div>
       </div>
@@ -111,7 +104,7 @@
         <div class="absolute -right-2 -bottom-2 opacity-5 text-indigo-400 group-hover:opacity-10 transition">
           <i data-lucide="sparkles" class="w-24 h-24"></i>
         </div>
-        <span class="text-xs font-medium text-slate-400">Unique Drops Hit</span>
+        <span class="text-xs font-medium text-slate-400">Uniques Hit</span>
         <div id="metricUniqueCount" class="text-2xl font-bold text-indigo-400 mt-1 font-mono">0</div>
         <div id="metricUniqueGP" class="text-xs text-slate-500 mt-1">Unique Value: 0 GP</div>
       </div>
@@ -126,32 +119,40 @@
       </div>
     </section>
 
-    <!-- Main Results View -->
+    <!-- Live Dynamic Feed Section -->
     <section class="grid grid-cols-1 lg:grid-cols-3 gap-8">
       
-      <!-- Loot Manifest Column -->
-      <div class="lg:col-span-2 bg-slate-900/80 border border-slate-800 rounded-2xl p-6 shadow-xl">
-        <div class="flex items-center justify-between mb-6">
+      <!-- Real-Time Kill Feed Display -->
+      <div class="lg:col-span-2 bg-slate-900/80 border border-slate-800 rounded-2xl p-6 shadow-xl flex flex-col h-[620px]">
+        <div class="flex items-center justify-between mb-4">
           <h3 class="text-md font-semibold text-slate-200 flex items-center gap-2">
-            <i data-lucide="package-open" class="w-5 h-5 text-amber-400"></i> Obtained Unique Manifest
+            <i data-lucide="list" class="w-5 h-5 text-amber-400"></i> Full Kill Log Feed
           </h3>
-          <span id="bossTag" class="text-xs font-mono px-2.5 py-1 rounded-md bg-slate-800 text-slate-300 border border-slate-700">Abyssal Sire</span>
+          <div class="flex items-center gap-2">
+            <span class="text-xs text-slate-400">Filter:</span>
+            <button id="filterAll" class="text-xs px-2.5 py-1 rounded-md bg-amber-500 text-slate-950 font-bold">All Drops</button>
+            <button id="filterUniques" class="text-xs px-2.5 py-1 rounded-md bg-slate-800 hover:bg-slate-700 text-slate-300">Uniques Only</button>
+          </div>
         </div>
 
-        <div id="uniqueLootList" class="grid grid-cols-1 sm:grid-cols-2 gap-3 min-h-[220px]">
+        <div id="killLogContainer" class="flex-1 overflow-y-auto space-y-2.5 pr-2">
           <!-- Populated dynamically -->
         </div>
       </div>
 
-      <!-- Variance & Mechanics Analytics -->
-      <div class="bg-slate-900/80 border border-slate-800 rounded-2xl p-6 space-y-6 shadow-xl">
+      <!-- Unique Drops Summary Manifest -->
+      <div class="bg-slate-900/80 border border-slate-800 rounded-2xl p-6 space-y-6 shadow-xl flex flex-col h-[620px]">
         <h3 class="text-md font-semibold text-slate-200 flex items-center gap-2">
-          <i data-lucide="bar-chart-3" class="w-5 h-5 text-indigo-400"></i> Statistical Odds
+          <i data-lucide="trophy" class="w-5 h-5 text-indigo-400"></i> Highlighted Uniques Log
         </h3>
 
-        <!-- Dry Probability Box -->
-        <div class="p-4 bg-slate-950 border border-slate-800/80 rounded-xl space-y-2">
-          <span class="text-xs font-medium text-slate-400 uppercase tracking-wider block">Dry Streak Calculation</span>
+        <div id="uniqueSummaryList" class="flex-1 overflow-y-auto space-y-2.5 pr-2">
+          <!-- Dynamic High Value Drops -->
+        </div>
+
+        <!-- Dry Probability Stat Box -->
+        <div class="p-4 bg-slate-950 border border-slate-800/80 rounded-xl space-y-2 shrink-0">
+          <span class="text-xs font-medium text-slate-400 uppercase tracking-wider block">Dry Streak Risk</span>
           <div class="flex items-baseline justify-between">
             <span id="dryChanceText" class="text-2xl font-bold text-slate-100 font-mono">0%</span>
             <span class="text-xs text-slate-400">Chance of 0 uniques</span>
@@ -159,16 +160,6 @@
           <div class="w-full bg-slate-900 h-2 rounded-full overflow-hidden border border-slate-800">
             <div id="dryProgressBar" class="bg-indigo-500 h-full w-0 transition-all duration-500"></div>
           </div>
-        </div>
-
-        <!-- Special Mechanics Info -->
-        <div class="p-4 bg-slate-950 border border-slate-800/80 rounded-xl space-y-2">
-          <span class="text-xs font-semibold text-amber-400 uppercase tracking-wider flex items-center gap-1.5">
-            <i data-lucide="info" class="w-4 h-4"></i> Table Mechanics
-          </span>
-          <p id="mechanicsNote" class="text-xs text-slate-400 leading-relaxed">
-            Select a boss to inspect specific primary drop rates, tertiary rolls, or Desert Treasure II vestige progression mechanics.
-          </p>
         </div>
       </div>
 
