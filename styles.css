@@ -23,15 +23,14 @@ body {
   background: #334155;
 }
 
-/* Highlight styles for Unique drops in the full log */
 .kill-card-unique {
   border-color: rgba(245, 158, 11, 0.6) !important;
-  background: linear-gradient(90deg, rgba(245, 158, 11, 0.08) 0%, rgba(15, 23, 42, 0.6) 100%) !important;
+  background: linear-gradient(90deg, rgba(245, 158, 11, 0.12) 0%, rgba(15, 23, 42, 0.8) 100%) !important;
 }
 
 .kill-card-pet {
   border-color: rgba(168, 85, 247, 0.6) !important;
-  background: linear-gradient(90deg, rgba(168, 85, 247, 0.08) 0%, rgba(15, 23, 42, 0.6) 100%) !important;
+  background: linear-gradient(90deg, rgba(168, 85, 247, 0.12) 0%, rgba(15, 23, 42, 0.8) 100%) !important;
 }
 
 .active\:scale-98:active {

@@ -21,15 +21,16 @@
         </div>
         <div>
           <h1 class="text-lg font-bold tracking-tight text-slate-100 flex items-center gap-2">
-            OSRS Loot Analytics <span class="text-xs font-mono font-normal px-2 py-0.5 rounded-full bg-amber-500/10 text-amber-400 border border-amber-500/20">v3.5 Live GE</span>
+            OSRS Loot Analytics <span class="text-xs font-mono font-normal px-2 py-0.5 rounded-full bg-amber-500/10 text-amber-400 border border-amber-500/20">v4.0 Fixed</span>
           </h1>
-          <p class="text-xs text-slate-400">Monte Carlo Drop Simulator & Wiki GE Live Pricing</p>
+          <p class="text-xs text-slate-400">Monte Carlo Drop Simulator & Live GE Prices</p>
         </div>
       </div>
 
       <div class="flex items-center gap-3">
         <button id="apiStatusBtn" class="flex items-center gap-2 text-xs px-3 py-1.5 rounded-lg bg-amber-500/10 border border-amber-500/20 text-amber-400 font-mono">
-          <span id="apiPulse" class="w-2 h-2 rounded-full bg-amber-400 animate-ping"></span> <span id="apiStatusText">Fetching Wiki GE...</span>
+          <span id="apiPulse" class="w-2 h-2 rounded-full bg-amber-400 animate-ping"></span>
+          <span id="apiStatusText">Connecting GE...</span>
         </button>
         <button id="downloadZipBtn" class="flex items-center gap-2 text-xs font-semibold px-3 py-1.5 rounded-lg bg-slate-800 hover:bg-slate-700 text-slate-200 border border-slate-700 transition">
           <i data-lucide="download" class="w-4 h-4 text-amber-400"></i> Export ZIP
@@ -119,7 +120,7 @@
       </div>
     </section>
 
-    <!-- Live Dynamic Feed Section -->
+    <!-- Dynamic Kill Feed -->
     <section class="grid grid-cols-1 lg:grid-cols-3 gap-8">
       
       <!-- Real-Time Kill Feed Display -->

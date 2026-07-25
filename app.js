@@ -1,4 +1,4 @@
-// Wiki Item ID Mapping for Dynamic GE Price Fetching
+// Wiki GE Item Mapping (IDs -> Name)
 const WIKI_ITEM_IDS = {
   12924: "Tanzanite Fang",
   12932: "Magic Fang",
@@ -19,7 +19,7 @@ const WIKI_ITEM_IDS = {
   28338: "Executioner's Axe Head"
 };
 
-// Database with normal loot tables + rare unique entries
+// Full Database Matching All Select Options
 const BOSS_DATABASE = {
   vorkath: {
     name: "Vorkath",
@@ -27,20 +27,20 @@ const BOSS_DATABASE = {
     defaultSupplyCost: 16000,
     mainUniqueDropChance: 1 / 5000,
     guaranteed: [
-      { item: "Superior Dragon Bones", qty: 2, defaultVal: 12000, icon: "https://oldschool.runescape.wiki/images/Superior_dragon_bones_detail.png" },
-      { item: "Blue Dragonhide", qty: 2, defaultVal: 3200, icon: "https://oldschool.runescape.wiki/images/Blue_dragonhide_detail.png" }
+      { item: "Superior Dragon Bones", qty: 2, defaultVal: 12000, icon: "🦴" },
+      { item: "Blue Dragonhide", qty: 2, defaultVal: 3200, icon: "🛡️" }
     ],
     normalLootTable: [
-      { item: "Dragon Bones", qty: 15, defaultVal: 3000, icon: "https://oldschool.runescape.wiki/images/Dragon_bones_detail.png" },
-      { item: "Rune Longsword", qty: 2, defaultVal: 38000, icon: "https://oldschool.runescape.wiki/images/Rune_longsword_detail.png" },
-      { item: "Adamantite Ore", qty: 20, defaultVal: 22000, icon: "https://oldschool.runescape.wiki/images/Adamantite_ore_detail.png" },
-      { item: "Wrath Runes", qty: 60, defaultVal: 24000, icon: "https://oldschool.runescape.wiki/images/Wrath_rune_detail.png" },
-      { item: "Dragon Battleaxe", qty: 1, defaultVal: 120000, icon: "https://oldschool.runescape.wiki/images/Dragon_battleaxe_detail.png" }
+      { item: "Dragon Bones", qty: 15, defaultVal: 3000, icon: "🦴" },
+      { item: "Rune Longsword", qty: 2, defaultVal: 38000, icon: "⚔️" },
+      { item: "Adamantite Ore", qty: 20, defaultVal: 22000, icon: "🪨" },
+      { item: "Wrath Runes", qty: 60, defaultVal: 24000, icon: "✨" },
+      { item: "Dragon Battleaxe", qty: 1, defaultVal: 120000, icon: "🪓" }
     ],
     uniqueLootTable: [
-      { item: "Vorkath's Head", chance: 1 / 50, isUnique: true, defaultVal: 0, icon: "https://oldschool.runescape.wiki/images/Vorkath%27s_head_detail.png" },
-      { item: "Draconic Visage", chance: 1 / 5000, isUnique: true, defaultVal: 8500000, icon: "https://oldschool.runescape.wiki/images/Draconic_visage_detail.png" },
-      { item: "Vorki (Pet)", chance: 1 / 3000, isUnique: true, isPet: true, defaultVal: 0, icon: "https://oldschool.runescape.wiki/images/Vorki_detail.png" }
+      { item: "Vorkath's Head", chance: 1 / 50, isUnique: true, defaultVal: 0, icon: "🐉" },
+      { item: "Draconic Visage", chance: 1 / 5000, isUnique: true, defaultVal: 8500000, icon: "🛡️" },
+      { item: "Vorki (Pet)", chance: 1 / 3000, isUnique: true, isPet: true, defaultVal: 0, icon: "🐾" }
     ]
   },
   zulrah: {
@@ -49,20 +49,52 @@ const BOSS_DATABASE = {
     defaultSupplyCost: 14000,
     mainUniqueDropChance: 1 / 256,
     guaranteed: [
-      { item: "Zulrah's Scales", qty: 220, defaultVal: 170, icon: "https://oldschool.runescape.wiki/images/Zulrah%27s_scales_detail.png" }
+      { item: "Zulrah's Scales", qty: 220, defaultVal: 170, icon: "🐍" }
     ],
     normalLootTable: [
-      { item: "Adder's Tongue", qty: 10, defaultVal: 8000, icon: "https://oldschool.runescape.wiki/images/Adder%27s_tongue_detail.png" },
-      { item: "Battlestaff", qty: 10, defaultVal: 82000, icon: "https://oldschool.runescape.wiki/images/Battlestaff_detail.png" },
-      { item: "Dragon Halberd", qty: 1, defaultVal: 80000, icon: "https://oldschool.runescape.wiki/images/Dragon_halberd_detail.png" },
-      { item: "Mahogany Logs", qty: 50, defaultVal: 22000, icon: "https://oldschool.runescape.wiki/images/Mahogany_logs_detail.png" }
+      { item: "Adder's Tongue", qty: 10, defaultVal: 8000, icon: "🌿" },
+      { item: "Battlestaff", qty: 10, defaultVal: 82000, icon: "🪄" },
+      { item: "Dragon Halberd", qty: 1, defaultVal: 80000, icon: "🗡️" },
+      { item: "Mahogany Logs", qty: 50, defaultVal: 22000, icon: "🪵" }
     ],
     uniqueLootTable: [
-      { item: "Tanzanite Fang", chance: 1 / 1024, isUnique: true, defaultVal: 14500000, icon: "https://oldschool.runescape.wiki/images/Tanzanite_fang_detail.png" },
-      { item: "Magic Fang", chance: 1 / 1024, isUnique: true, defaultVal: 6800000, icon: "https://oldschool.runescape.wiki/images/Magic_fang_detail.png" },
-      { item: "Serpentine Visage", chance: 1 / 1024, isUnique: true, defaultVal: 3400000, icon: "https://oldschool.runescape.wiki/images/Serpentine_visage_detail.png" },
-      { item: "Uncut Onyx", chance: 1 / 1024, isUnique: true, defaultVal: 2000000, icon: "https://oldschool.runescape.wiki/images/Uncut_onyx_detail.png" },
-      { item: "Pet Snakeling", chance: 1 / 4000, isUnique: true, isPet: true, defaultVal: 0, icon: "https://oldschool.runescape.wiki/images/Pet_snakeling_detail.png" }
+      { item: "Tanzanite Fang", chance: 1 / 1024, isUnique: true, defaultVal: 14500000, icon: "🏹" },
+      { item: "Magic Fang", chance: 1 / 1024, isUnique: true, defaultVal: 6800000, icon: "🔮" },
+      { item: "Serpentine Visage", chance: 1 / 1024, isUnique: true, defaultVal: 3400000, icon: "🐍" },
+      { item: "Uncut Onyx", chance: 1 / 1024, isUnique: true, defaultVal: 2000000, icon: "💎" },
+      { item: "Pet Snakeling", chance: 1 / 4000, isUnique: true, isPet: true, defaultVal: 0, icon: "🐾" }
+    ]
+  },
+  vardorvis: {
+    name: "Vardorvis",
+    defaultKPH: 38,
+    defaultSupplyCost: 15000,
+    mainUniqueDropChance: 1 / 136,
+    guaranteed: [],
+    normalLootTable: [
+      { item: "Dragon Dart Tip", qty: 50, defaultVal: 45000, icon: "🎯" },
+      { item: "Soul Runes", qty: 300, defaultVal: 60000, icon: "✨" },
+      { item: "Runite Ore", qty: 10, defaultVal: 110000, icon: "🪨" }
+    ],
+    uniqueLootTable: [
+      { item: "Ultor Vestige", chance: 1 / 1088, isUnique: true, defaultVal: 48000000, icon: "💍" },
+      { item: "Executioner's Axe Head", chance: 1 / 1088, isUnique: true, defaultVal: 18000000, icon: "🪓" },
+      { item: "Butch (Pet)", chance: 1 / 3000, isUnique: true, isPet: true, defaultVal: 0, icon: "🐾" }
+    ]
+  },
+  phantom_muspah: {
+    name: "Phantom Muspah",
+    defaultKPH: 22,
+    defaultSupplyCost: 22000,
+    mainUniqueDropChance: 1 / 100,
+    guaranteed: [],
+    normalLootTable: [
+      { item: "Cannonball", qty: 400, defaultVal: 64000, icon: "💣" },
+      { item: "Ancient Essence", qty: 800, defaultVal: 72000, icon: "🧪" }
+    ],
+    uniqueLootTable: [
+      { item: "Venator Shard", chance: 1 / 100, isUnique: true, defaultVal: 7100000, icon: "🏹" },
+      { item: "Muphin (Pet)", chance: 1 / 2500, isUnique: true, isPet: true, defaultVal: 0, icon: "🐾" }
     ]
   }
 };
@@ -71,27 +103,26 @@ let liveWikiPrices = {};
 let currentLogs = [];
 let filterMode = "ALL";
 
-// Fetch Live Wiki Grand Exchange Prices
+// Fetch Prices Safely Without Browser Security Violations
 async function fetchWikiPrices() {
   const statusPulse = document.getElementById("apiPulse");
   const statusText = document.getElementById("apiStatusText");
 
   try {
-    const response = await fetch("https://prices.runescape.wiki/api/v1/osrs/latest", {
-      headers: { 'User-Agent': 'OSRS_Loot_Analytics_Tool - @User' }
-    });
+    // Browsers forbid setting 'User-Agent' manually in fetch headers
+    const response = await fetch("https://prices.runescape.wiki/api/v1/osrs/latest");
     
-    if (!response.ok) throw new Error("API Error");
+    if (!response.ok) throw new Error(`HTTP ${response.status}`);
     
     const data = await response.json();
-    liveWikiPrices = data.data;
+    liveWikiPrices = data.data || {};
 
     statusPulse.className = "w-2 h-2 rounded-full bg-emerald-400 animate-pulse";
     statusText.innerText = "GE Wiki Sync Active";
     statusText.parentElement.className = "flex items-center gap-2 text-xs px-3 py-1.5 rounded-lg bg-emerald-500/10 border border-emerald-500/20 text-emerald-400 font-mono";
   } catch (err) {
     statusPulse.className = "w-2 h-2 rounded-full bg-amber-400";
-    statusText.innerText = "GE Offline (Using Defaults)";
+    statusText.innerText = "GE Offline (Defaults Active)";
   }
 }
 
@@ -104,10 +135,9 @@ function getItemPrice(itemName, fallbackVal) {
   return fallbackVal;
 }
 
-// Initialization & Event Listeners
 document.addEventListener("DOMContentLoaded", async () => {
   populateBossSelect();
-  lucide.createIcons();
+  if (window.lucide) lucide.createIcons();
   
   await fetchWikiPrices();
 
@@ -119,6 +149,7 @@ document.addEventListener("DOMContentLoaded", async () => {
   document.getElementById("filterUniques").addEventListener("click", () => setFilter("UNIQUES"));
 
   handleBossChange();
+  runSimulation(); // Initial run on load
 });
 
 function populateBossSelect() {
@@ -131,6 +162,7 @@ function populateBossSelect() {
 function handleBossChange() {
   const bossKey = document.getElementById("bossSelect").value;
   const boss = BOSS_DATABASE[bossKey];
+  if (!boss) return;
   document.getElementById("kphInput").value = boss.defaultKPH;
   document.getElementById("supplyInput").value = boss.defaultSupplyCost;
 }
@@ -145,6 +177,8 @@ function setFilter(mode) {
 function runSimulation() {
   const bossKey = document.getElementById("bossSelect").value;
   const boss = BOSS_DATABASE[bossKey];
+  if (!boss) return;
+
   const targetKC = parseInt(document.getElementById("kcInput").value) || 100;
   const kph = parseInt(document.getElementById("kphInput").value) || 30;
   const supplyCost = parseInt(document.getElementById("supplyInput").value) || 0;
@@ -162,7 +196,7 @@ function runSimulation() {
     let hitUnique = false;
     let hitPet = false;
 
-    // 1. Roll Guaranteed Drops
+    // Guaranteed Drops
     if (boss.guaranteed) {
       boss.guaranteed.forEach(g => {
         const val = getItemPrice(g.item, g.defaultVal);
@@ -172,31 +206,33 @@ function runSimulation() {
       });
     }
 
-    // 2. Roll Standard Loot
-    const randomNormal = boss.normalLootTable[Math.floor(Math.random() * boss.normalLootTable.length)];
-    const normVal = getItemPrice(randomNormal.item, randomNormal.defaultVal);
-    killLoot.push({ name: randomNormal.item, qty: randomNormal.qty, value: normVal, icon: randomNormal.icon, isUnique: false });
-    killValue += normVal;
+    // Standard Drops
+    if (boss.normalLootTable && boss.normalLootTable.length > 0) {
+      const randomNormal = boss.normalLootTable[Math.floor(Math.random() * boss.normalLootTable.length)];
+      const normVal = getItemPrice(randomNormal.item, randomNormal.defaultVal);
+      killLoot.push({ name: randomNormal.item, qty: randomNormal.qty, value: normVal, icon: randomNormal.icon, isUnique: false });
+      killValue += normVal;
+    }
 
-    // 3. Roll Unique & Tertiary Table
-    boss.uniqueLootTable.forEach(u => {
-      // Vorkath head pity threshold at 50 KC
-      const hitPity = (bossKey === "vorkath" && kc === 50 && u.item === "Vorkath's Head");
-      
-      if (Math.random() < u.chance || hitPity) {
-        const uVal = getItemPrice(u.item, u.defaultVal);
-        hitUnique = true;
+    // Unique Rolls
+    if (boss.uniqueLootTable) {
+      boss.uniqueLootTable.forEach(u => {
+        const hitPity = (bossKey === "vorkath" && kc === 50 && u.item === "Vorkath's Head");
         
-        if (u.isPet) hitPet = true;
-        
-        killLoot.push({ name: u.item, qty: 1, value: uVal, icon: u.icon, isUnique: true, isPet: u.isPet });
-        killValue += uVal;
-        uniqueCount++;
-        uniqueGP += uVal;
+        if (Math.random() < u.chance || hitPity) {
+          const uVal = getItemPrice(u.item, u.defaultVal);
+          hitUnique = true;
+          if (u.isPet) hitPet = true;
+          
+          killLoot.push({ name: u.item, qty: 1, value: uVal, icon: u.icon, isUnique: true, isPet: u.isPet });
+          killValue += uVal;
+          uniqueCount++;
+          uniqueGP += uVal;
 
-        uniqueHitsSummary.push({ kc, item: u.item, value: uVal, icon: u.icon, isPet: u.isPet });
-      }
-    });
+          uniqueHitsSummary.push({ kc, item: u.item, value: uVal, icon: u.icon, isPet: u.isPet });
+        }
+      });
+    }
 
     grossGP += killValue;
     if (hitPet) petObtained = true;
@@ -210,7 +246,7 @@ function runSimulation() {
     });
   }
 
-  // Analytics Computation
+  // Dashboard Metrics Update
   const totalSupplyCost = supplyCost * targetKC;
   const netProfit = grossGP - totalSupplyCost;
   const totalHours = (targetKC / kph).toFixed(1);
@@ -226,7 +262,6 @@ function runSimulation() {
   document.getElementById("metricPetStatus").innerText = petObtained ? "Unlocked! 🎉" : "None";
   document.getElementById("metricPetStatus").className = `text-2xl font-bold font-mono mt-1 ${petObtained ? "text-emerald-400" : "text-slate-500"}`;
 
-  // Binomial dry calculation
   const dryChance = Math.pow(1 - boss.mainUniqueDropChance, targetKC) * 100;
   document.getElementById("dryChanceText").innerText = `${dryChance.toFixed(1)}%`;
   document.getElementById("dryProgressBar").style.width = `${Math.min(100, Math.max(0, 100 - dryChance))}%`;
@@ -240,7 +275,7 @@ function renderKillLog() {
   const filtered = filterMode === "UNIQUES" ? currentLogs.filter(l => l.containsUnique) : currentLogs;
 
   if (filtered.length === 0) {
-    container.innerHTML = `<div class="p-8 text-center text-slate-500 text-sm">No kills match current filter criteria.</div>`;
+    container.innerHTML = `<div class="p-8 text-center text-slate-500 text-sm">No kills match criteria.</div>`;
     return;
   }
 
@@ -257,8 +292,8 @@ function renderKillLog() {
           </span>
           <div class="flex items-center gap-2 overflow-x-auto">
             ${log.loot.map(item => `
-              <div class="flex items-center gap-1 px-2 py-0.5 rounded-lg ${item.isUnique ? 'bg-amber-500/20 border border-amber-500/40 text-amber-300 font-semibold' : 'bg-slate-900/60 text-slate-300'} text-xs">
-                <img src="${item.icon}" class="w-4 h-4 object-contain" />
+              <div class="flex items-center gap-1.5 px-2 py-0.5 rounded-lg ${item.isUnique ? 'bg-amber-500/20 border border-amber-500/40 text-amber-300 font-semibold' : 'bg-slate-900/60 text-slate-300'} text-xs">
+                <span>${item.icon}</span>
                 <span>${item.name}</span>
                 <span class="text-[10px] text-slate-400 font-mono">x${item.qty}</span>
               </div>
@@ -283,7 +318,7 @@ function renderUniqueSummary(uniques) {
   container.innerHTML = uniques.map(u => `
     <div class="p-3 bg-slate-950 border ${u.isPet ? 'border-purple-500/50' : 'border-amber-500/40'} rounded-xl flex items-center justify-between">
       <div class="flex items-center gap-3">
-        <img src="${u.icon}" class="w-7 h-7 object-contain" />
+        <span class="text-xl">${u.icon}</span>
         <div>
           <div class="text-xs font-bold ${u.isPet ? 'text-purple-400' : 'text-amber-400'}">${u.item}</div>
           <div class="text-[10px] text-slate-500 font-mono">Obtained at KC #${u.kc}</div>
@@ -299,5 +334,5 @@ function renderUniqueSummary(uniques) {
 function downloadProjectZip() {
   const zip = new JSZip();
   zip.file("index.html", document.documentElement.outerHTML);
-  zip.generateAsync({ type: "blob" }).then(content => saveAs(content, "OSRS_Loot_Analytics_Live.zip"));
+  zip.generateAsync({ type: "blob" }).then(content => saveAs(content, "OSRS_Loot_Analytics_Fixed.zip"));
 }
