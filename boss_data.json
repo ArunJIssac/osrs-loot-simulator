@@ -1,0 +1,91 @@
+{
+  "abyssal_sire": {
+    "name": "Abyssal Sire",
+    "rollsPerKill": 1,
+    "guaranteed": [
+      {
+        "id": "abyssal_ashes",
+        "name": "Abyssal ashes",
+        "icon": "https://oldschool.runescape.wiki/images/Abyssal_ashes.png",
+        "qty": [1, 1],
+        "value": 4500
+      }
+    ],
+    "primaryTable": [
+      {
+        "id": "unsired",
+        "name": "Unsired",
+        "icon": "https://oldschool.runescape.wiki/images/Unsired.png",
+        "rate": 0.01,
+        "secondaryKey": "unsired_table"
+      },
+      {
+        "id": "blood_rune",
+        "name": "Blood rune",
+        "icon": "https://oldschool.runescape.wiki/images/Blood_rune.png",
+        "rate": 0.0666,
+        "qty": [250, 350],
+        "value": 200
+      }
+    ],
+    "secondaryTables": {
+      "unsired_table": [
+        {
+          "id": "bludgeon_claw",
+          "name": "Abyssal bludgeon claw",
+          "icon": "https://oldschool.runescape.wiki/images/Abyssal_bludgeon_claw.png",
+          "rate": 0.25,
+          "unique": true,
+          "value": 11000000
+        },
+        {
+          "id": "abyssal_dagger",
+          "name": "Abyssal dagger",
+          "icon": "https://oldschool.runescape.wiki/images/Abyssal_dagger.png",
+          "rate": 0.0625,
+          "unique": true,
+          "value": 2800000
+        },
+        {
+          "id": "abyssal_orphan",
+          "name": "Abyssal orphan (Pet)",
+          "icon": "https://oldschool.runescape.wiki/images/Abyssal_orphan.png",
+          "rate": 0.0097,
+          "pet": true,
+          "value": 0
+        }
+      ]
+    }
+  },
+  "zulrah": {
+    "name": "Zulrah",
+    "rollsPerKill": 2,
+    "guaranteed": [
+      {
+        "id": "zulrah_scales",
+        "name": "Zulrah's scales",
+        "icon": "https://oldschool.runescape.wiki/images/Zulrah%27s_scales.png",
+        "qty": [100, 300],
+        "value": 170
+      }
+    ],
+    "primaryTable": [
+      {
+        "id": "tanzanite_fang",
+        "name": "Tanzanite fang",
+        "icon": "https://oldschool.runescape.wiki/images/Tanzanite_fang.png",
+        "rate": 0.000976,
+        "unique": true,
+        "value": 22000000
+      },
+      {
+        "id": "pet_snakeling",
+        "name": "Pet snakeling",
+        "icon": "https://oldschool.runescape.wiki/images/Pet_snakeling.png",
+        "rate": 0.00025,
+        "pet": true,
+        "value": 0
+      }
+    ]
+  }
+}
